@@ -1,0 +1,312 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Nexura Core Palette */
+    --nx-bg:       #0B0F19;
+    --nx-surface:  #262A34;
+    --nx-border:   #30354A;
+    --nx-primary:  #2D8CFF;
+    --nx-primary-dim: rgba(45, 140, 255, 0.15);
+    --nx-text:     #FFFFFF;
+    --nx-muted:    #A1A1AA;
+
+    /* Mapped to Tailwind/shadcn CSS vars (always dark) */
+    --background: 222 43% 7%;          /* #0B0F19 */
+    --foreground: 0 0% 100%;           /* #FFFFFF */
+    --card: 224 13% 18%;               /* #262A34 */
+    --card-foreground: 0 0% 100%;
+    --popover: 224 13% 18%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 214 100% 59%;           /* #2D8CFF */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 224 13% 18%;
+    --secondary-foreground: 0 0% 63%;  /* #A1A1AA */
+    --muted: 224 13% 18%;
+    --muted-foreground: 240 4% 64%;    /* #A1A1AA */
+    --accent: 224 15% 22%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 229 19% 24%;             /* #30354A */
+    --input: 224 13% 18%;
+    --ring: 214 100% 59%;              /* #2D8CFF */
+    --radius: 1rem;                    /* 16px card radius */
+  }
+
+  /* Light mode override — keep same dark Nexura palette */
+  .light, :root {
+    color-scheme: dark;
+  }
+
+  .dark {
+    --background: 222 43% 7%;
+    --foreground: 0 0% 100%;
+    --card: 224 13% 18%;
+    --card-foreground: 0 0% 100%;
+    --popover: 224 13% 18%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 214 100% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 224 13% 18%;
+    --secondary-foreground: 0 0% 63%;
+    --muted: 224 13% 18%;
+    --muted-foreground: 240 4% 64%;
+    --accent: 224 15% 22%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 229 19% 24%;
+    --input: 224 13% 18%;
+    --ring: 214 100% 59%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    background-color: #0B0F19;
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display headings use DotGothic16 */
+  h1, h2 {
+    font-family: 'DotGothic16', 'Courier New', monospace;
+    letter-spacing: -0.01em;
+  }
+
+  /* Sub-headings and labels stay mono */
+  h3, h4, h5, h6 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+}
+
+/* ─── Nexura utility classes ─────────────────────────────── */
+
+/* Surface card */
+.nx-card {
+  background: #262A34;
+  border: 1px solid #30354A;
+  border-radius: 16px;
+}
+
+/* Elevated surface */
+.nx-surface {
+  background: #262A34;
+}
+
+/* Primary glow */
+.nx-glow {
+  box-shadow: 0 0 24px rgba(45, 140, 255, 0.25), 0 0 8px rgba(45, 140, 255, 0.1);
+}
+
+/* Primary glow (subtle) */
+.nx-glow-sm {
+  box-shadow: 0 0 12px rgba(45, 140, 255, 0.2);
+}
+
+/* Pill border radius */
+.nx-pill {
+  border-radius: 9999px;
+}
+
+/* Control border radius */
+.nx-control {
+  border-radius: 8px;
+}
+
+/* Mono label */
+.nx-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Display font class */
+.nx-display {
+  font-family: 'DotGothic16', monospace;
+  line-height: 1.04;
+}
+
+/* ─── Legacy glass utilities (kept for compatibility) ─────── */
+.glass {
+  background: rgba(38, 42, 52, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(48, 53, 74, 0.8);
+}
+
+.glass-card {
+  background: rgba(38, 42, 52, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(48, 53, 74, 0.6);
+  border-radius: 16px;
+}
+
+/* ─── Gradient backgrounds ───────────────────────────────── */
+
+/* Primary blue gradient (replaces gradient-eco) */
+.gradient-eco {
+  background: linear-gradient(135deg, #1a6fd4 0%, #2D8CFF 50%, #5fa8ff 100%);
+}
+
+.gradient-blue {
+  background: linear-gradient(135deg, #1a6fd4 0%, #2D8CFF 100%);
+}
+
+/* Hero background — deep dark with blue radial glow */
+.gradient-hero {
+  background:
+    radial-gradient(ellipse at 65% 40%, rgba(45, 140, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 25% 75%, rgba(45, 140, 255, 0.07) 0%, transparent 50%),
+    #0B0F19;
+}
+
+/* Card gradient (replaces gradient-card) */
+.gradient-card {
+  background: linear-gradient(135deg, rgba(45, 140, 255, 0.08) 0%, rgba(45, 140, 255, 0.03) 100%);
+}
+
+/* Blue electric CTA gradient */
+.gradient-cta {
+  background: linear-gradient(135deg, #1259b8 0%, #2D8CFF 60%, #66b3ff 100%);
+}
+
+/* ─── Animations ──────────────────────────────────────────── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 140, 255, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(45, 140, 255, 0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Masked reveal (stagger-friendly) */
+@keyframes masked-reveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0);
+    transform: translateX(0);
+  }
+}
+
+/* Hover lift (used on cards) */
+@keyframes hover-lift {
+  to { transform: translateY(-4px); }
+}
+
+/* Ambient glow pulse */
+@keyframes ambient-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+/* Stagger entrance */
+@keyframes stagger-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+.animate-slide-up { animation: slide-up 0.55s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+.animate-spin-slow { animation: spin-slow 10s linear infinite; }
+.animate-masked-reveal { animation: masked-reveal 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-ambient-glow { animation: ambient-glow 4s ease-in-out infinite; }
+.animate-stagger-in { animation: stagger-in 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0B0F19; }
+::-webkit-scrollbar-thumb {
+  background: rgba(45, 140, 255, 0.35);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(45, 140, 255, 0.6); }
+
+/* ─── Focus ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #2D8CFF;
+  outline-offset: 2px;
+}
+
+/* ─── Contrast / Motion ─────────────────────────────────── */
+@media (prefers-contrast: high) {
+  :root {
+    --primary: 214 100% 65%;
+    --border: 0 0% 40%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Badge presets ─────────────────────────────────────── */
+.badge-green-beginner { background: linear-gradient(135deg, #2D8CFF, #66b3ff); }
+.badge-eco-warrior    { background: linear-gradient(135deg, #1a6fd4, #2D8CFF); }
+.badge-carbon-reducer { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+.badge-champion       { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+/* ─── Chat bubbles ──────────────────────────────────────── */
+.chat-bubble-user {
+  background: linear-gradient(135deg, #1a6fd4, #2D8CFF);
+  border-radius: 18px 18px 4px 18px;
+}
+.chat-bubble-ai {
+  background: #262A34;
+  border: 1px solid #30354A;
+  border-radius: 18px 18px 18px 4px;
+}
+
+/* ─── Recharts tooltip override ─────────────────────────── */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #262A34 !important;
+  border: 1px solid #30354A !important;
+  border-radius: 12px !important;
+}

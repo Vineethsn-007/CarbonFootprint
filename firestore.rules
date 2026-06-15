@@ -1,0 +1,85 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ──────────────────────────────────────────────────────
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ── Users ─────────────────────────────────────────────────────────────────
+    match /users/{userId} {
+      // Anyone signed in can read their own profile; admin can read all
+      allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
+      // Users create their own profile on registration
+      allow create: if isSignedIn() && isOwner(userId);
+      // Users update their own profile; admin can update any
+      allow update: if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Public leaderboard read (score + displayName only)
+    match /users/{userId} {
+      allow read: if isSignedIn();
+    }
+
+    // ── Emissions ─────────────────────────────────────────────────────────────
+    match /emissions/{emissionId} {
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.totalKgCO2 is number &&
+        request.resource.data.totalKgCO2 >= 0;
+      allow update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+    }
+
+    // ── Goals ─────────────────────────────────────────────────────────────────
+    match /goals/{goalId} {
+      allow read, write: if isSignedIn() && (
+        resource == null
+          ? request.resource.data.userId == request.auth.uid
+          : resource.data.userId == request.auth.uid
+      );
+      allow read, write: if isAdmin();
+    }
+
+    // ── Badges ────────────────────────────────────────────────────────────────
+    match /badges/{badgeId} {
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+
+    // ── Articles (Education Hub) ───────────────────────────────────────────────
+    match /articles/{articleId} {
+      // Anyone signed in can read articles
+      allow read: if isSignedIn();
+      // Only admins can create, update, delete articles
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Challenges ────────────────────────────────────────────────────────────
+    match /challenges/{challengeId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
