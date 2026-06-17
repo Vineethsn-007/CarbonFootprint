@@ -1,4 +1,5 @@
 const express = require('express')
+const { body, validationResult } = require('express-validator')
 const { db } = require('../services/firebaseAdmin')
 const { verifyToken } = require('../middleware/auth')
 
@@ -18,11 +19,19 @@ router.get('/', async (req, res) => {
   }
 })
 
+const goalValidation = [
+  body('title').trim().notEmpty().withMessage('Title is required'),
+  body('targetValue').isFloat({ gt: 0 }).withMessage('targetValue must be positive'),
+  body('unit').optional({ checkFalsy: true }).isString(),
+  body('deadline').optional({ checkFalsy: true }).isISO8601()
+]
+
 // POST /api/goals
-router.post('/', async (req, res) => {
+router.post('/', goalValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
   const { title, description, targetValue, unit, deadline } = req.body
-  if (!title?.trim()) return res.status(400).json({ error: 'Title is required' })
-  if (!targetValue || targetValue <= 0) return res.status(400).json({ error: 'targetValue must be positive' })
 
   try {
     const docRef = await db.collection('goals').add({

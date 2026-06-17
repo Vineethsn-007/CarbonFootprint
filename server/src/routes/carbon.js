@@ -22,7 +22,7 @@ router.post('/calculate', emissionValidation, async (req, res) => {
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
   try {
-    const { totalKgCO2, transportation, energy, food, shopping, waste, ...rest } = req.body
+    const { totalKgCO2, transportation, energy, food, shopping, waste } = req.body
 
     const docRef = await db.collection('emissions').add({
       userId: req.uid,
@@ -66,7 +66,7 @@ router.get('/history', async (req, res) => {
       .get()
     const emissions = snap.docs.map((d) => ({ id: d.id, ...d.data() }))
     res.json({ emissions, count: emissions.length })
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Failed to fetch history' })
   }
 })
@@ -84,7 +84,7 @@ router.get('/summary', async (req, res) => {
 
     const monthTotal = snap.docs.reduce((sum, d) => sum + (d.data().totalKgCO2 || 0), 0)
     res.json({ monthTotal: Math.round(monthTotal * 10) / 10, count: snap.size })
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Failed to fetch summary' })
   }
 })

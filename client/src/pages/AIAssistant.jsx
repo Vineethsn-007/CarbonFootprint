@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Send, Bot, User, Sparkles, RefreshCw, Download } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { Send, Bot, User, Sparkles, RefreshCw } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEmissions } from '../hooks/useEmissions'
 import { chatWithAssistant, generateWeeklyPlan } from '../services/gemini'

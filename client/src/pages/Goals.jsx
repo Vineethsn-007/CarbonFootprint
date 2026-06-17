@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Plus, Target, CheckCircle, Clock, Trash2, Edit3, X, Save } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Target, CheckCircle, Clock, Trash2, X, Save } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useGoals } from '../hooks/useGoals'
 import { createGoal, updateGoal, deleteGoal } from '../services/firestore'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import Button from '../components/ui/Button'
-import { Input, Select, Textarea } from '../components/ui/Input'
+import { Input, Textarea } from '../components/ui/Input'
 import Progress from '../components/ui/Progress'
 import Badge from '../components/ui/Badge'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
@@ -24,7 +24,6 @@ export default function Goals() {
   const { user } = useAuth()
   const { goals, activeGoals, completedGoals, loading, refetch } = useGoals()
   const [showCreate, setShowCreate] = useState(false)
-  const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState({ title: '', description: '', targetValue: 10, unit: 'times', deadline: '' })
   const [progressInputs, setProgressInputs] = useState({})
   const [saving, setSaving] = useState(false)
@@ -96,7 +95,7 @@ export default function Goals() {
           { label: 'Active',    value: activeGoals.length,    color: 'text-[#2D8CFF]', bg: 'bg-[#2D8CFF]/10' },
           { label: 'Completed',value: completedGoals.length, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
           { label: 'Total',    value: goals.length,           color: 'text-violet-400', bg: 'bg-violet-500/10' },
-        ].map(({ label, value, color, bg }) => (
+        ].map(({ label, value, color }) => (
           <Card key={label}>
             <CardContent className="p-4 text-center">
               <div className={`text-2xl font-bold ${color} font-['JetBrains_Mono',monospace]`}>{value}</div>
@@ -141,7 +140,6 @@ export default function Goals() {
           <h2 className="text-lg font-semibold">Active Goals</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {activeGoals.map((goal) => {
-              const pct = goal.targetValue > 0 ? Math.min(100, Math.round((goal.currentValue / goal.targetValue) * 100)) : 0
               return (
                 <Card key={goal.id} hover>
                   <CardContent className="p-5 space-y-3">

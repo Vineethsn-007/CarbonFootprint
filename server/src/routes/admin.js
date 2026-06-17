@@ -1,4 +1,5 @@
 const express = require('express')
+const { body, validationResult } = require('express-validator')
 const { db } = require('../services/firebaseAdmin')
 const { verifyToken, requireAdmin } = require('../middleware/auth')
 
@@ -17,10 +18,16 @@ router.get('/users', async (req, res) => {
 })
 
 // PATCH /api/admin/users/:id
-router.patch('/users/:id', async (req, res) => {
+const userPatchValidation = [
+  body('role').optional().isIn(['user', 'admin']).withMessage('Invalid role'),
+  body('displayName').optional().isString().trim().notEmpty()
+]
+
+router.patch('/users/:id', userPatchValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
   const { role, displayName } = req.body
-  const allowed = ['user', 'admin']
-  if (role && !allowed.includes(role)) return res.status(400).json({ error: 'Invalid role' })
   try {
     await db.collection('users').doc(req.params.id).update({ ...(role && { role }), ...(displayName && { displayName }), updatedAt: new Date() })
     res.json({ message: 'User updated' })

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Car, Zap, Utensils, ShoppingBag, Trash2, CheckCircle, ChevronRight, ChevronLeft, RotateCcw } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
@@ -6,9 +6,9 @@ import { calculateCarbonFootprint, getSustainabilityLevel } from '../utils/carbo
 import { saveEmission } from '../services/firestore'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/Card'
 import Button from '../components/ui/Button'
-import { Input, Select } from '../components/ui/Input'
+import { Input } from '../components/ui/Input'
 import Progress from '../components/ui/Progress'
-import { formatKgCO2, getCategoryColor } from '../utils/formatters'
+import { formatKgCO2 } from '../utils/formatters'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 
 const STEPS = [

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Leaf, ArrowRight, BarChart3, Target, Bot, Trophy,
   BookOpen, Shield, ChevronDown, Star, Users, TrendingDown,
-  Zap, Globe, Wind, Mail, MessageSquare
+  Zap, Globe, Mail, MessageSquare
 } from 'lucide-react'
 import Button from '../components/ui/Button'
 
-import { Sun, Moon } from 'lucide-react'
 import { clsx } from 'clsx'
 import Orb from '../components/ui/Orb'
 
@@ -57,21 +56,6 @@ const testimonials = [
   { name: 'Sunita R.', role: 'Product Manager', text: 'The leaderboard makes sustainability fun and competitive. My entire team is now tracking their footprint together.', score: 5 },
 ]
 
-function CountUp({ target, suffix = '' }) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    const num = parseInt(target.replace(/[^0-9]/g, ''))
-    let start = 0
-    const step = Math.ceil(num / 60)
-    const timer = setInterval(() => {
-      start = Math.min(start + step, num)
-      setCount(start)
-      if (start >= num) clearInterval(timer)
-    }, 30)
-    return () => clearInterval(timer)
-  }, [target])
-  return <span>{count.toLocaleString()}{suffix}</span>
-}
 
 export default function Landing() {
   const [scrolled, setScrolled] = useState(false)

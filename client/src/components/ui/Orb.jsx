@@ -1,5 +1,5 @@
 import { Mesh, Program, Renderer, Triangle, Vec3 } from 'ogl';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function Orb({
   hue = 0,
@@ -285,7 +285,7 @@ export default function Orb({
       container.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [hue, hoverIntensity, rotateOnHover, forceHoverState, backgroundColor]);
+  }, [frag, vert, hue, hoverIntensity, rotateOnHover, forceHoverState, backgroundColor]);
 
   return <div ref={ctnDom} className="w-full h-full" />;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getUserGoals } from '../services/firestore'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -8,15 +8,9 @@ export function useGoals() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    if (!user) {
-      setLoading(false)
-      return
-    }
-    fetchGoals()
-  }, [user])
+  
 
-  const fetchGoals = async () => {
+  const fetchGoals = useCallback(async () => {
     try {
       setLoading(true)
       const data = await getUserGoals(user.uid)
@@ -26,7 +20,16 @@ export function useGoals() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoading(false)
+      return
+    }
+    fetchGoals()
+  }, [user, fetchGoals])
 
   const activeGoals = goals.filter((g) => g.status === 'active')
   const completedGoals = goals.filter((g) => g.status === 'completed')

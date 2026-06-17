@@ -82,7 +82,7 @@ export async function saveEmission(userId, emissionData) {
   return docRef.id
 }
 
-export async function getEmissionHistory(userId, pageSize = 12, lastDoc = null) {
+export async function getEmissionHistory(userId) {
   let q = query(
     collection(db, 'emissions'),
     where('userId', '==', userId)

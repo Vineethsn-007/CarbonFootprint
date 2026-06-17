@@ -1,4 +1,3 @@
-import React from 'react'
 import { clsx } from 'clsx'
 
 export function Card({ children, className, hover = false, glass = false, glow = false, ...props }) {

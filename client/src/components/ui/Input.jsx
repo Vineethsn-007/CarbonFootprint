@@ -1,4 +1,3 @@
-import React from 'react'
 import { clsx } from 'clsx'
 
 export function Input({ className, label, error, hint, leftIcon, rightIcon, id, ...props }) {

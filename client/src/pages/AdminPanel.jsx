@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Shield, Users, FileText, BarChart3, Trash2, Edit3, Plus, X } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Shield, Users, FileText, BarChart3, Trash2, Plus, X } from 'lucide-react'
 import { getAllUsers, getArticles, createArticle, deleteArticle } from '../services/firestore'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import Button from '../components/ui/Button'

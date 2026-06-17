@@ -1,12 +1,9 @@
-import React from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
-  LayoutDashboard, Calculator, BarChart3, Target, Bot,
-  BookOpen, Trophy, User, Settings, LogOut, Menu, X,
-  Leaf, ChevronLeft, Shield
+  BookOpen, Trophy, LogOut, ChevronLeft, Shield,
+  LayoutDashboard, Calculator, BarChart3, Target, Bot
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
-import { useTheme } from '../../contexts/ThemeContext'
 import { clsx } from 'clsx'
 
 const navItems = [

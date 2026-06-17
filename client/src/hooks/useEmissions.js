@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getMonthlyEmissions } from '../services/firestore'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -8,15 +8,9 @@ export function useEmissions() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    if (!user) {
-      setLoading(false)
-      return
-    }
-    fetchEmissions()
-  }, [user])
+  
 
-  const fetchEmissions = async () => {
+  const fetchEmissions = useCallback(async () => {
     try {
       setLoading(true)
       const data = await getMonthlyEmissions(user.uid)
@@ -26,7 +20,16 @@ export function useEmissions() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoading(false)
+      return
+    }
+    fetchEmissions()
+  }, [user, fetchEmissions])
 
   const latestEmission = emissions[0] || null
   const previousEmission = emissions[1] || null

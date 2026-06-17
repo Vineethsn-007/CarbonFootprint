@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
       totalEmissions: d.data().totalEmissions || 0,
     }))
     res.json({ leaders })
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Failed to fetch leaderboard' })
   }
 })

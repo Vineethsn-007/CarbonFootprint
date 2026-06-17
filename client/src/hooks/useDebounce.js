@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 
 /**
  * Debounce a callback function
@@ -34,6 +34,8 @@ export function useDebouncedValue(value, delay = 300) {
     [delay]
   )
 
-  update(value)
+  useEffect(() => {
+    update(value)
+  }, [value, update])
   return debouncedValue
 }

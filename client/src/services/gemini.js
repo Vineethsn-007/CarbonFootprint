@@ -4,7 +4,12 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 // This client-side instance is for direct streaming chat only
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '')
 
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
+const model = genAI.getGenerativeModel({ 
+  model: 'gemini-2.5-flash',
+  systemInstruction: `You are EcoBot, an expert AI sustainability assistant for a carbon footprint tracking platform. 
+You help users understand their environmental impact and suggest practical ways to reduce their carbon footprint. 
+Be concise, friendly, and always provide specific, actionable advice with estimated CO₂ savings where possible.`
+})
 
 /**
  * Generate personalized eco insights from user emission data
@@ -106,11 +111,7 @@ export async function chatWithAssistant(messages) {
   })
 
   const lastMessage = messages[messages.length - 1]
-  const systemContext = `You are EcoBot, an expert AI sustainability assistant for a carbon footprint tracking platform. 
-You help users understand their environmental impact and suggest practical ways to reduce their carbon footprint. 
-Be concise, friendly, and always provide specific, actionable advice with estimated CO₂ savings where possible.`
-
-  const result = await chat.sendMessage(`${systemContext}\n\nUser: ${lastMessage.content}`)
+  const result = await chat.sendMessage(lastMessage.content)
   return result.response.text()
 }
 

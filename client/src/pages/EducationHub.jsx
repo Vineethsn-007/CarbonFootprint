@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, BookOpen, Clock, ChevronRight, Loader2, X } from 'lucide-react'
 import { getArticles } from '../services/firestore'
 import { Card, CardContent } from '../components/ui/Card'
@@ -219,7 +219,6 @@ export default function EducationHub() {
   useEffect(() => { document.title = 'Education Hub – EcoTrack' }, [])
 
   useEffect(() => {
-    setLoading(true)
     getArticles(category, 20)
       .then(({ articles: data }) => {
         setArticles(data.length > 0 ? data : SAMPLE_ARTICLES)

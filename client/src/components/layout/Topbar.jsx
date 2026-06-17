@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Bell, Search } from 'lucide-react'
+import { useState } from 'react'
+import { Bell } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { clsx } from 'clsx'
 

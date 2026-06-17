@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Trophy, Medal, Crown, TrendingDown, Leaf } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Trophy, Medal, Crown, Leaf } from 'lucide-react'
 import { getLeaderboard } from '../services/firestore'
 import { useAuth } from '../contexts/AuthContext'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
@@ -16,8 +16,6 @@ export default function Leaderboard() {
 
   useEffect(() => {
     document.title = 'Leaderboard – EcoTrack'
-    setLoading(true)
-    setError(null)
     getLeaderboard(20)
       .then(setLeaders)
       .catch((err) => {
@@ -28,7 +26,6 @@ export default function Leaderboard() {
   }, [])
 
   const top3 = leaders.slice(0, 3)
-  const rest = leaders.slice(3)
   const myRank = leaders.findIndex((l) => l.id === user?.uid)
 
   const rankIcon = (rank) => {

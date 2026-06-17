@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   TrendingDown, TrendingUp, Zap, Target, Award, ArrowRight,
-  Leaf, Car, Utensils, ShoppingBag, Trash2, Calculator
+  Leaf, Calculator
 } from 'lucide-react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, PieChart, Pie, Cell, Legend
+  ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts'
 import { useAuth } from '../contexts/AuthContext'
 import { useEmissions } from '../hooks/useEmissions'
@@ -16,7 +16,7 @@ import Badge from '../components/ui/Badge'
 import Progress from '../components/ui/Progress'
 import Button from '../components/ui/Button'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
-import { formatKgCO2, getCategoryColor, getRank } from '../utils/formatters'
+import { formatKgCO2, getRank } from '../utils/formatters'
 import { generateInsights } from '../services/gemini'
 
 const PIE_COLORS = ['#2D8CFF', '#66b3ff', '#a8d4ff', '#8b5cf6', '#475569']
@@ -32,12 +32,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (latestEmission && !insights.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInsightsLoading(true)
       generateInsights(latestEmission)
         .then(setInsights)
         .catch(() => setInsights([]))
         .finally(() => setInsightsLoading(false))
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latestEmission])
 
   const score = profile?.sustainabilityScore || 0

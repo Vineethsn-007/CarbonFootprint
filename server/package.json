@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "vitest run"
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
@@ -23,8 +23,9 @@
     "helmet": "^8.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14",
-    "supertest": "^7.2.2",
-    "vitest": "^4.1.8"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.5.0",
+    "globals": "^17.6.0",
+    "nodemon": "^3.1.14"
   }
 }

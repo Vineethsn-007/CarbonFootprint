@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Leaf, Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import Button from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
@@ -53,7 +53,7 @@ export default function Login() {
     try {
       await loginWithGoogle()
       navigate('/dashboard')
-    } catch (err) {
+    } catch {
       setServerError('Google sign-in failed. Please try again.')
     } finally {
       setGoogleLoading(false)

@@ -1,4 +1,3 @@
-import React from 'react'
 import { clsx } from 'clsx'
 
 export default function Progress({ value = 0, max = 100, className, label, showValue = false, color = 'blue' }) {

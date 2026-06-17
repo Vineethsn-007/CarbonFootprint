@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { User, Mail, Shield, Award, Download, Save, Leaf } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { User, Mail, Award, Download, Save } from 'lucide-react'
 import jsPDF from 'jspdf'
 import { useAuth } from '../contexts/AuthContext'
 import { useEmissions } from '../hooks/useEmissions'
@@ -27,9 +27,16 @@ export default function Profile() {
 
   useEffect(() => {
     document.title = 'Profile – EcoTrack'
-    if (profile) setForm({ displayName: profile.displayName || '', email: profile.email || '' })
     getUserBadges(user?.uid).then(setBadges).catch(() => {})
-  }, [profile, user])
+  }, [user])
+
+  useEffect(() => {
+    if (profile && !form.email) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setForm({ displayName: profile.displayName || '', email: profile.email || '' })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile])
 
   const handleSave = async (e) => {
     e.preventDefault()
